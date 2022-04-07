@@ -3,11 +3,13 @@
   boot.loader.grub.enable = false;
 
   environment.systemPackages = with pkgs; [
+    screen
+    vim
+    htop bottom
+    git
     libgpiod gpio-utils
     i2c-tools
     evtest
-    screen
-    vim
     (python39.withPackages(ps: with ps;[
       adafruit-pureio
       pyserial
@@ -35,7 +37,8 @@
     getty.autologinUser = "nixos";
     openssh = {
       enable = true;
-      passwordAuthentication = false;
+      # enable password authentication if no public key is set
+      passwordAuthentication = if config.users.extraUsers.nixos.openssh.authorizedKeys.keys == [] then true else false;
       permitRootLogin = "no";
     };
     udev = {
