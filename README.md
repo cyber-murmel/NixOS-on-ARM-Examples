@@ -46,13 +46,13 @@ done
 
 ## Flashing
 ```bash
-# set correct path for SD card{ config, pkgs, lib, ... }:
+# set correct path for SD card
 export SD_CARD=/dev/sda
 # inflate image and write to SD card
 zstd -dcf out-links/$BOARD_TYPE/sd-image/*.img.zst | sudo dd status=progress bs=64k iflag=fullblock oflag=direct of=$SD_CARD && sync && sudo eject $SD_CARD
 ```
 
 ## Attribution
-- repo inspired by
-  - [**illegalprime**/nixos-on-arm](https://github.com/illegalprime/nixos-on-arm)
+- repo inspired by [**illegalprime**/nixos-on-arm](https://github.com/illegalprime/nixos-on-arm)
+- **mirrexagon** wrote a Nix expressions for building [u-boot for the ESPRESSObin](https://github.com/mirrexagon/espressobin-nix)
 - big thanks to **sternenseemann** for helping me with cross compilation
