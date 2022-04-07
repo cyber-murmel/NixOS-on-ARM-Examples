@@ -9,7 +9,7 @@ Set `BOARD_TYPE` to the desired value and run the command as shown below.
 ```bash
 $ export BOARD_TYPE=foobar
 # nixpkgs pinned to master as of Thu Mar 31 08:01:29 2022 -0700
-$ export NIXPKGS=https://github.com/NixOS/nixpkgs/archive/3e481ad.tar.gz
+$ export NIXPKGS="https://github.com/NixOS/nixpkgs/archive/3e481ad.tar.gz"
 $ nix-build '<nixpkgs/nixos>' \
     -A config.system.build.sdImage \
     -I nixpkgs=$NIXPKGS \
@@ -26,7 +26,6 @@ $ nix-build '<nixpkgs/nixos>' \
 | ESPRESSObin         | `espressobin`         |
 | Orange Pi Zero      | `orange-pi-zero`      |
 | ROC-RK3328-CC       | `roc-rk3328-cc`       |
-| Raspberry Pi Zero W | `raspberry-pi-zero-w` |
 | Raspberry Pi Zero W | `raspberry-pi-zero-w` |
 
 #### Building All
