@@ -7,6 +7,8 @@
     <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
   ];
 
+  sdImage.imageBaseName = lib.mkDefault "nixos-raspberry-pi-zero";
+
   boot = {
     loader = {
       grub.enable = false;

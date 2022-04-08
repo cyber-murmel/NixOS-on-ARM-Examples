@@ -6,5 +6,7 @@
     <nixpkgs/nixos/modules/installer/sd-card/sd-image-aarch64.nix>
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  sdImage.imageBaseName = lib.mkDefault "nixos-generic";
+
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 }
