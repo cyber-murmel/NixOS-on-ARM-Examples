@@ -10,10 +10,24 @@
     libgpiod gpio-utils
     i2c-tools
     evtest
-    (python39.withPackages(ps: with ps;[
+    (python3.withPackages(ps: with ps;[
       adafruit-pureio
       pyserial
       evdev
+      # quick fix for failing cross compilation
+      (libgpiod.overrideAttrs (oldAttrs: {
+        pname = "${python.libPrefix}-gpiod";
+
+        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ python3 ];
+
+        postInstall = ''
+          ${oldAttrs.postInstall or ""}
+          # for pythonImportsCheck
+          export PYTHONPATH="$out/${python.sitePackages}:$PYTHONPATH"
+        '';
+
+        pythonImportsCheck = [ "gpiod" ];
+      }))
     ]))
   ];
 
