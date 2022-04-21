@@ -1,4 +1,7 @@
 { config, pkgs, lib, ... }:
+let
+  adafruit-blinka = pkgs.callPackage ./adafruit-blinka { };
+in
 {
   boot.loader.grub.enable = false;
 
@@ -7,11 +10,16 @@
     vim
     htop bottom
     git
-    libgpiod gpio-utils
+    gpio-utils
     i2c-tools
     evtest
+    (cwiid.overrideAttrs (oldAttrs: {
+      # needed for cross compilation
+      nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ bintools-unwrapped bison flex ];
+    }))
     (python3.withPackages(ps: with ps;[
       adafruit-pureio
+      adafruit-blinka
       pyserial
       evdev
       # quick fix for failing cross compilation
@@ -48,7 +56,7 @@
   };
 
   services = {
-    getty.autologinUser = "nixos";
+    #getty.autologinUser = "nixos";
     openssh = {
       enable = true;
       # enable password authentication if no public key is set
@@ -63,6 +71,7 @@
   };
 
   hardware.i2c.enable = true;
+  hardware.bluetooth.enable = true;
 
   fileSystems = {
     "/" = {
