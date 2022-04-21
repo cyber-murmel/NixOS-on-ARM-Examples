@@ -1,24 +1,27 @@
 { config, pkgs, lib, ... }:
 {
-  nixpkgs.crossSystem = lib.systems.elaborate lib.systems.examples.raspberryPi;
+  nixpkgs.crossSystem = lib.systems.elaborate lib.systems.examples.armv7l-hf-multiplatform;
 
   imports = [
     <nixpkgs/nixos/modules/profiles/base.nix>
     <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
   ];
 
-  sdImage.imageBaseName = "nixos-raspberry-pi-zero";
+  sdImage.imageBaseName = "nixos-raspberry-pi-2";
 
   boot = {
     loader = {
       grub.enable = false;
       raspberryPi = {
         enable = true;
-        version = 0;
+        version = 2;
+        firmwareConfig = ''
+          dtparam=i2c=on
+        '';
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_rpi0;
+    kernelPackages = pkgs.linuxPackages_rpi2;
     consoleLogLevel = lib.mkDefault 7;
 
     # prevent `modprobe: FATAL: Module ahci not found`
@@ -33,13 +36,5 @@
       ${installBootLoader} ${toplevel} -d ./firmware
     '';
     firmwareSize = 64;
-  };
-
-  hardware = {
-    # needed for wlan0 to work (https://github.com/NixOS/nixpkgs/issues/115652)
-    enableRedistributableFirmware = pkgs.lib.mkForce false;
-    firmware = with pkgs; [
-      raspberrypiWirelessFirmware
-    ];
   };
 }

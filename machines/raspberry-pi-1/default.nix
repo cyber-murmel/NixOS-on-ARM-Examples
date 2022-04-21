@@ -7,18 +7,18 @@
     <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
   ];
 
-  sdImage.imageBaseName = "nixos-raspberry-pi-zero";
+  sdImage.imageBaseName = "nixos-raspberry-pi-1";
 
   boot = {
     loader = {
       grub.enable = false;
       raspberryPi = {
         enable = true;
-        version = 0;
+        version = 1;
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_rpi0;
+    kernelPackages = pkgs.linuxPackages_rpi1;
     consoleLogLevel = lib.mkDefault 7;
 
     # prevent `modprobe: FATAL: Module ahci not found`
@@ -33,13 +33,5 @@
       ${installBootLoader} ${toplevel} -d ./firmware
     '';
     firmwareSize = 64;
-  };
-
-  hardware = {
-    # needed for wlan0 to work (https://github.com/NixOS/nixpkgs/issues/115652)
-    enableRedistributableFirmware = pkgs.lib.mkForce false;
-    firmware = with pkgs; [
-      raspberrypiWirelessFirmware
-    ];
   };
 }

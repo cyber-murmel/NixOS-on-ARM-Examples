@@ -4,7 +4,7 @@
     ../generic-aarch64
   ];
 
-  sdImage.imageBaseName = lib.mkDefault "nixos-roc-rk3328-cc";
+  sdImage.imageBaseName = "nixos-roc-rk3328-cc";
 
   nixpkgs.config.allowUnfree = true;
   sdImage.postBuildCommands = with pkgs; ''
