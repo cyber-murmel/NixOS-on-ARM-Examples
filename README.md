@@ -10,12 +10,7 @@ Set `BOARD_TYPE` to the desired value and run the command as shown below.
 $ export BOARD_TYPE=foobar
 # nixpkgs pinned to master as of Thu Mar 31 08:01:29 2022 -0700
 $ export NIXPKGS="https://github.com/NixOS/nixpkgs/archive/3e481ad.tar.gz"
-$ nix-build '<nixpkgs/nixos>' \
-    -A config.system.build.sdImage \
-    -I nixpkgs=$NIXPKGS \
-    -I nixos-config=./sd-image.nix \
-    -I machine=machines/$BOARD_TYPE \
-    --out-link out-links/$BOARD_TYPE
+$ nix-build -I nixpkgs=$NIXPKGS -I machine=machines/$BOARD_TYPE --out-link out-links/$BOARD_TYPE
 ```
 ### Boards
 `BOARD_TYPE` can be set to the name of any directory in `machines`.
@@ -35,12 +30,7 @@ $ export NIXPKGS=https://github.com/NixOS/nixpkgs/archive/3e481ad.tar.gz
 $ for machine in $(find machines -maxdepth 1 -mindepth 1 -type d)
 do
     export BOARD_TYPE=$(basename $machine);
-    nix-build '<nixpkgs/nixos>' \
-        -A config.system.build.sdImage \
-        -I nixpkgs=$NIXPKGS \
-        -I nixos-config=./sd-image.nix \
-        -I machine=machines/$BOARD_TYPE \
-        --out-link out-links/$BOARD_TYPE
+    nix-build -I nixpkgs=$NIXPKGS -I machine=machines/$BOARD_TYPE --out-link out-links/$BOARD_TYPE
 done
 ```
 
