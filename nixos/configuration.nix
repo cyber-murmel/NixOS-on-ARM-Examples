@@ -5,7 +5,10 @@
     ./serial
     ./bluetooth
     ./sdr
-  ];
+    ./minification.nix
+  ]
+  ++ lib.optionals (builtins.pathExists ./hardware-configuration.nix) [ ./hardware-configuration.nix ]
+  ++ lib.optionals (builtins.pathExists ./custom.nix) [ ./custom.nix ];
 
   boot.loader.grub.enable = false;
 

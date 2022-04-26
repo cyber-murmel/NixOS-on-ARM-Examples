@@ -2,9 +2,6 @@
 
 with lib;
 {
-  # no GUI environment
-  environment.noXlibs = mkDefault true;
-
   # don't build documentation
   documentation.info.enable = mkDefault false;
   documentation.man.enable = mkDefault false;

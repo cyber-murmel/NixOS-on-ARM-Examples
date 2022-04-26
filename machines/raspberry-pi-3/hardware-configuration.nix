@@ -1,15 +1,7 @@
 { config, pkgs, lib, ... }:
 {
-  nixpkgs.crossSystem = lib.systems.elaborate lib.systems.examples.aarch64-multiplatform;
-
-  imports = [
-    <nixpkgs/nixos/modules/profiles/base.nix>
-    <nixpkgs/nixos/modules/installer/sd-card/sd-image.nix>
-  ];
-
-  sdImage.imageBaseName = "nixos-raspberry-pi-3";
-
   boot = {
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_rpi3;
     loader = {
       grub.enable = false;
       raspberryPi = {
@@ -20,22 +12,12 @@
         '';
       };
     };
-
-    kernelPackages = pkgs.linuxPackages_rpi3;
     consoleLogLevel = lib.mkDefault 7;
 
     # prevent `modprobe: FATAL: Module ahci not found`
     initrd.availableKernelModules = pkgs.lib.mkForce [
       "mmc_block"
     ];
-  };
-
-  sdImage = {
-    populateRootCommands = "";
-    populateFirmwareCommands = with config.system.build; ''
-      ${installBootLoader} ${toplevel} -d ./firmware
-    '';
-    firmwareSize = 128;
   };
 
   hardware = {

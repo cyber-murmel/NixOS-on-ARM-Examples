@@ -1,16 +1,6 @@
 { config, pkgs, lib, ... }:
 {
-  imports = [
-    ../generic-aarch64
-  ];
-
-  sdImage.imageBaseName = "nixos-roc-rk3328-cc";
-
-  nixpkgs.config.allowUnfree = true;
-  sdImage.postBuildCommands = with pkgs; ''
-    dd if=${ubootRock64}/idbloader.img of=$img conv=fsync,notrunc bs=512 seek=64
-    dd if=${ubootRock64}/u-boot.itb of=$img conv=fsync,notrunc bs=512 seek=16384
-  '';
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
   systemd.services."hardware-setup" = {
     enable = true;

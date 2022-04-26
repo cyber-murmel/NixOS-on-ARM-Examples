@@ -1,4 +1,4 @@
 # prevent people from cheking in their secrets
-/custom.nix
+/nixos/custom.nix
 
 /out-links/*
