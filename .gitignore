@@ -2,3 +2,5 @@
 /nixos/custom.nix
 
 /out-links/*
+
+/.vscode
