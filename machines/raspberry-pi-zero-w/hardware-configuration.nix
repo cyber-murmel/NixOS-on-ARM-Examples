@@ -18,6 +18,9 @@
     initrd.availableKernelModules = pkgs.lib.mkForce [
       "mmc_block"
     ];
+
+    # prefent zfs cross compilation error
+    supportedFilesystems = lib.mkForce [ "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
   };
 
   hardware = {
